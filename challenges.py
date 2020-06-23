@@ -36,9 +36,9 @@ def numIslands(grid):
             return
         
         # Check for an island:
-        if grid[pointX][pointY] == '1':
+        if grid[pointX][pointY] == 1:
             # Set it to 0 so we don't check it again later
-            grid[pointX][pointY] = '0'
+            grid[pointX][pointY] = 0
             
             # Check each space around the point, also turning them into 0s as to not check the same island
             check_spaces(grid, pointX+1, pointY, x, y)
@@ -48,10 +48,10 @@ def numIslands(grid):
     
     # Run the check on every node
     for pointX in range(0, x):
-        print("works x")
+        # print("works x")
         for pointY in range(0, y):
-            print("works y")
-            if grid[pointX][pointY] == '1':
+            # print("works y")
+            if grid[pointX][pointY] == 1:
                 num_islands += 1
                 check_spaces(grid, pointX, pointY, x, y)
             
@@ -75,6 +75,7 @@ def timeToRot(grid):
     orange. Each minute, a rotten orange contaminates its 4-directional neighbors. Return the number
     of minutes until all oranges rot.
     """
+    # use queue and 
     # Make sure there's a grid
     if not grid:
         print('No Grid')
@@ -83,42 +84,49 @@ def timeToRot(grid):
     # Axes for the graph
     x, y = len(grid), len(grid[0])
     
-    # Get a count of normal oranges
+    # A queue to perform BFS on
+    q = deque()
+    
+    # Number of normal oranges still left
     oranges = 0
     
-    time = 0
+    for row in range(x):
+        for col in range(y):
+            # Get the number of normal oranges
+            if grid[row][col] == 1:
+                oranges += 1
+            # Find rotten oranges and add their coordinates to the queue
+            elif grid[row][col] == 2:
+                q.append((row, col))
     
-    def infect(grid, pointX, pointY, x, y):
-        # If the point coordinates are out of bounds, return
-        if pointX not in range(0, x):
-            return
-        if pointY not in range(0, y):
-            return
+    # If there's no normal oranges to infect, return 0
+    if oranges == 0: return 0
+    
+    # BFS
+    time = -1
+    while q:
+        time += 1
+        
+        for _ in range(len(q)):
+            curr = q.popleft()
 
-        # Check for a rotten orange:
-        if grid[pointX][pointY] == '1':
-            grid[pointX][pointY] = '2'
+            # Get the sides and infect them
+            # Side coordinate differences
+            sides = [[0, 1], [0, -1], [1, 0], [-1, 0]]
             
-            # Check each space around the point, also turning them into 0s as to not check the same island
-            infect(grid, pointX+1, pointY, x, y)
-            infect(grid, pointX-1, pointY,x, y)
-            infect(grid, pointX, pointY+1, x, y)
-            infect(grid, pointX, pointY-1, x, y)
-        return time
-            
-    # Run the check on every node
-    for pointX in range(0, x):
-        print("works x")
-        for pointY in range(0, y):
-            print("works y")
-            if grid[pointX][pointY] == '2':
-                time += 1
-                infect(grid, pointX, pointY, x, y)
-            
-    print(time)
-    return time
-
-
+            # Add the differences to the current row and column
+            for side in sides:
+                curr_row = curr[0] + side[0]
+                curr_col = curr[1] + side[1]
+                
+                # Check if the current coordinates are in bound. If they are, infect the orange and update the orange count
+                if curr_row >= 0 and curr_col >= 0 and curr_row < x and curr_col < y and grid[curr_row][curr_col] == 1:
+                    grid[curr_row][curr_col] = 2
+                    q.append((curr_row, curr_col))
+                    oranges -= 1
+                    
+    return time if oranges == 0 else -1
+                    
 # Problem 3: Class Scheduling
 """There are a total of n courses you have to take, labeled from 0 to n-1.
 

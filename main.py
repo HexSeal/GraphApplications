@@ -1,7 +1,7 @@
 from challenges import *
 
 if __name__ == "__main__":
-    # Test NumIslands
+    # # Test NumIslands
     # map1 = [
     #     [1, 1, 1, 1, 0],
     #     [1, 1, 0, 1, 0],
@@ -23,22 +23,25 @@ if __name__ == "__main__":
 
 
     # Test Rotten Oranges
-    oranges1 = [
-        [2,1,1],
-        [1,1,0],
-        [0,1,1]
-    ]
-    assert timeToRot(oranges1) == 4
+    # oranges1 = [
+    #     [2,1,1],
+    #     [1,1,0],
+    #     [0,1,1]
+    # ]
+    # print(timeToRot(oranges1))
+    # assert timeToRot(oranges1) == 4
 
-    oranges2 = [
-        [2,1,1],
-        [0,1,1],
-        [1,0,1]
-    ]
-    assert timeToRot(oranges2) == -1
+    # oranges2 = [
+    #     [2,1,1],
+    #     [0,1,1],
+    #     [1,0,1]
+    # ]
+    # print(timeToRot(oranges2))
+    # assert timeToRot(oranges2) == -1
 
-    oranges3 = [
-        [0,2]
-    ]
-    assert timeToRot(oranges3) == 0
+    # oranges3 = [
+    #     [0,2]
+    # ]
+    # print(timeToRot(oranges3))
+    # assert timeToRot(oranges3) == 0
 
