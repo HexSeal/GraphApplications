@@ -1,3 +1,5 @@
+from collections import deque
+
 # Problem 1: Number of islands
 """Write a function, numIslands, which takes in a 2D grid map
 of 1s (land) and 0s (water). Your function should 
@@ -11,24 +13,50 @@ by water."""
 
 def numIslands(grid):
     """Take in a grid of 1s (land) and 0s (water) and return the number of islands."""
-    pass
-
-    # Test Cases
-    map1 = [
-        [1, 1, 1, 1, 0],
-        [1, 1, 0, 1, 0],
-        [1, 1, 0, 0, 0],
-        [0, 0, 0, 0, 0]
-    ]
-    assert numIslands(map1) == 1
-
-    map2 = [
-        [1, 1, 0, 0, 0],
-        [1, 1, 0, 0, 0],
-        [0, 0, 1, 0, 0],
-        [0, 0, 0, 1, 1]
-    ]
-    assert numIslands(map2) == 3
+    # Returning 0
+    # Make sure there's a grid
+    if not grid:
+        print("No grid")
+        return 0
+    
+    # Establish axes for the grid
+    x, y = len(grid), len(grid[0])
+    
+    # Counter for the number of islands
+    num_islands = 0
+    
+    # Helper Function
+    def check_spaces(grid, pointX, pointY, x, y):
+        # If the point coordinates are out of bounds, return
+        if pointX not in range(0, x):
+            print('X out of range')
+            return
+        if pointY not in range(0, y):
+            print('Y out of range')
+            return
+        
+        # Check for an island:
+        if grid[pointX][pointY] == '1':
+            # Set it to 0 so we don't check it again later
+            grid[pointX][pointY] = '0'
+            
+            # Check each space around the point, also turning them into 0s as to not check the same island
+            check_spaces(grid, pointX+1, pointY, x, y)
+            check_spaces(grid, pointX-1, pointY,x, y)
+            check_spaces(grid, pointX, pointY+1, x, y)
+            check_spaces(grid, pointX, pointY-1, x, y)
+    
+    # Run the check on every node
+    for pointX in range(0, x):
+        print("works x")
+        for pointY in range(0, y):
+            print("works y")
+            if grid[pointX][pointY] == '1':
+                num_islands += 1
+                check_spaces(grid, pointX, pointY, x, y)
+            
+    # print(num_islands)
+    return num_islands
 
 
 
@@ -47,28 +75,48 @@ def timeToRot(grid):
     orange. Each minute, a rotten orange contaminates its 4-directional neighbors. Return the number
     of minutes until all oranges rot.
     """
-    pass
+    # Make sure there's a grid
+    if not grid:
+        print('No Grid')
+        return 0
+    
+    # Axes for the graph
+    x, y = len(grid), len(grid[0])
+    
+    # Get a count of normal oranges
+    oranges = 0
+    
+    time = 0
+    
+    def infect(grid, pointX, pointY, x, y):
+        # If the point coordinates are out of bounds, return
+        if pointX not in range(0, x):
+            return
+        if pointY not in range(0, y):
+            return
 
-    # Test Cases
-    oranges1 = [
-        [2,1,1],
-        [1,1,0],
-        [0,1,1]
-    ]
-    assert timeToRot(oranges1) == 4
-
-    oranges2 = [
-        [2,1,1],
-        [0,1,1],
-        [1,0,1]
-    ]
-    assert timeToRot(oranges2) == -1
-
-    oranges3 = [
-        [0,2]
-    ]
-    assert timeToRot(oranges3) == 0
-
+        # Check for a rotten orange:
+        if grid[pointX][pointY] == '1':
+            grid[pointX][pointY] = '2'
+            
+            # Check each space around the point, also turning them into 0s as to not check the same island
+            infect(grid, pointX+1, pointY, x, y)
+            infect(grid, pointX-1, pointY,x, y)
+            infect(grid, pointX, pointY+1, x, y)
+            infect(grid, pointX, pointY-1, x, y)
+        return time
+            
+    # Run the check on every node
+    for pointX in range(0, x):
+        print("works x")
+        for pointY in range(0, y):
+            print("works y")
+            if grid[pointX][pointY] == '2':
+                time += 1
+                infect(grid, pointX, pointY, x, y)
+            
+    print(time)
+    return time
 
 
 # Problem 3: Class Scheduling
@@ -87,9 +135,9 @@ def courseOrder(numCourses, prerequisites):
     courses1 = [ [1,0] ]
     assert courseOrder(2, courses1) == [0, 1]
 
-courses2 = [ [1,0], [2,0], [3,1], [3,2] ]
-possibleSchedules = [ [0, 1, 2, 3], [0, 2, 1, 3] ]
-assert courseOrder(4, courses2) in possibleSchedules
+    courses2 = [ [1,0], [2,0], [3,1], [3,2] ]
+    possibleSchedules = [ [0, 1, 2, 3], [0, 2, 1, 3] ]
+    assert courseOrder(4, courses2) in possibleSchedules
 
 
 
@@ -102,9 +150,28 @@ def wordLadderLength(beginWord, endWord, wordList):
     """Return the length of the shortest word chain from beginWord to endWord, using words from wordList."""
     pass
 
-# Test Cases
-beginWord = "hit"
-endWord = "cog"
-wordList = ["hot","dot","dog","lot","log","cog"]
+    # Test Cases
+    beginWord = "hit"
+    endWord = "cog"
+    wordList = ["hot","dot","dog","lot","log","cog"]
 
-assert wordLadderLength(beginWord, endWord, wordList) == 5
+    assert wordLadderLength(beginWord, endWord, wordList) == 5
+
+if __name__ == "__main__":
+    # Test numIslands
+    map1 = [
+        [1, 1, 1, 1, 0],
+        [1, 1, 0, 1, 0],
+        [1, 1, 0, 0, 0],
+        [0, 0, 0, 0, 0]
+    ]
+    assert numIslands(map1) == 1
+
+    map2 = [
+        [1, 1, 0, 0, 0],
+        [1, 1, 0, 0, 0],
+        [0, 0, 1, 0, 0],
+        [0, 0, 0, 1, 1]
+    ]
+    assert numIslands(map2) == 3
+
