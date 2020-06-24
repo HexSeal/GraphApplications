@@ -1,4 +1,4 @@
-from collections import deque
+from collections import deque, defaultdict
 
 # Problem 1: Number of islands
 """Write a function, numIslands, which takes in a 2D grid map
@@ -137,16 +137,35 @@ Given the total number of courses and a list of prerequisite pairs, return the o
 There may be multiple correct orders, you just need to return one of them. If it is impossible to finish all courses, return an empty array."""
 def courseOrder(numCourses, prerequisites):
     """Return a course schedule according to the prerequisites provided."""
-    pass
+    prereqs = defaultdict(list)
+    
+    # Add all the classes to the dictionary wit their prereqs
+    for post, pre in prerequisites:
+        prereqs[post].append(pre)
+        
+    schedule = []
+    is_prereq = [0] * numCourses
+    
+    def isCyclic(course, prereqs, state, schedule):
+        if is_prereq[course] == 1: return True
+        if is_prereq[course] == 2: return False
+        
+        state[course] = 1
+        for pre in prereqs[course]:
+            if isCyclic(pre, prereqs, state, schedule):
+                return True
+        
+        state[course] = 2
+        schedule.append(course)
+        return False
+    
+    for course in range(numCourses):
+        # If the prerequisites form a cycle, return nothing
+        if isCyclic(course, prereqs, is_prereq, schedule):
+            return []
 
-    # Test Cases
-    courses1 = [ [1,0] ]
-    assert courseOrder(2, courses1) == [0, 1]
-
-    courses2 = [ [1,0], [2,0], [3,1], [3,2] ]
-    possibleSchedules = [ [0, 1, 2, 3], [0, 2, 1, 3] ]
-    assert courseOrder(4, courses2) in possibleSchedules
-
+    print(schedule)
+    return schedule
 
 
 # Problem 4: Word Ladder

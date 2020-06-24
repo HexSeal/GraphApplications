@@ -1,6 +1,7 @@
 from challenges import *
 
 if __name__ == "__main__":
+    pass
     # # Test NumIslands
     # map1 = [
     #     [1, 1, 1, 1, 0],
@@ -22,7 +23,7 @@ if __name__ == "__main__":
 
 
 
-    # Test Rotten Oranges
+    # Test timeToRot
     # oranges1 = [
     #     [2,1,1],
     #     [1,1,0],
@@ -45,3 +46,12 @@ if __name__ == "__main__":
     # print(timeToRot(oranges3))
     # assert timeToRot(oranges3) == 0
 
+
+
+    # Test courseOrder
+    courses1 = [ [1,0] ]
+    assert courseOrder(2, courses1) == [0, 1]
+
+    courses2 = [ [1,0], [2,0], [3,1], [3,2] ]
+    possibleSchedules = [ [0, 1, 2, 3], [0, 2, 1, 3] ]
+    assert courseOrder(4, courses2) in possibleSchedules
