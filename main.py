@@ -1,7 +1,6 @@
 from challenges import *
 
 if __name__ == "__main__":
-    pass
     # # Test NumIslands
     # map1 = [
     #     [1, 1, 1, 1, 0],
@@ -49,9 +48,20 @@ if __name__ == "__main__":
 
 
     # Test courseOrder
-    courses1 = [ [1,0] ]
-    assert courseOrder(2, courses1) == [0, 1]
+    # courses1 = [ [1,0] ]
+    # assert courseOrder(2, courses1) == [0, 1]
 
-    courses2 = [ [1,0], [2,0], [3,1], [3,2] ]
-    possibleSchedules = [ [0, 1, 2, 3], [0, 2, 1, 3] ]
-    assert courseOrder(4, courses2) in possibleSchedules
+    # courses2 = [ [1,0], [2,0], [3,1], [3,2] ]
+    # possibleSchedules = [ [0, 1, 2, 3], [0, 2, 1, 3] ]
+    # assert courseOrder(4, courses2) in possibleSchedules
+    
+    
+    
+    # Test Tribonacci
+    # print("Testing fib(): {}".format(trib(100)))
+    # print("Testing make_trib_table(): {}".format(make_trib_table(100)))
+    
+    # pass
+    items = [ ('boots', 10, 60), ('tent', 20, 100), ('water', 30, 120), ('first aid', 15, 70) ]
+    capacity = 50
+    print("Highest value: {}".format(knapsack(items, capacity)))

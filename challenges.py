@@ -184,21 +184,103 @@ def wordLadderLength(beginWord, endWord, wordList):
 
     assert wordLadderLength(beginWord, endWord, wordList) == 5
 
-if __name__ == "__main__":
-    # Test numIslands
-    map1 = [
-        [1, 1, 1, 1, 0],
-        [1, 1, 0, 1, 0],
-        [1, 1, 0, 0, 0],
-        [0, 0, 0, 0, 0]
-    ]
-    assert numIslands(map1) == 1
 
-    map2 = [
-        [1, 1, 0, 0, 0],
-        [1, 1, 0, 0, 0],
-        [0, 0, 1, 0, 0],
-        [0, 0, 0, 1, 1]
-    ]
-    assert numIslands(map2) == 3
+# Fibonacci Sequence, recursively
+def fib(n):
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    else:
+        return fib(n-1) + fib(n-2)
+
+
+# Helper functions for fib to store the result of each call and cache it for later, makes it much faster
+def memoize(f):
+    memo = {}
+    def helper(x):
+        if x not in memo:
+            memo[x] = f(x)
+        return memo[x]
+    return helper
+
+fib = memoize(fib)
+
+# Dynamically implemented Fibonacci Sequence
+def make_fib_table(n):
+    fib_table = [0] * (n+1)
+    fib_table[1] = 1
+    
+    for i in range(2, n+1):
+        fib_table[i] = fib_table[i-1] + fib_table[i - 2]
+    
+    return fib_table[n]
+
+
+
+# Tribonacci recursively implemented
+def trib(n):
+    # Edge cases
+    if n == 0:
+        return 0
+    elif n == 1 or n == 2:
+        return 1
+    
+    else:
+        return fib(n-1) + fib(n-2) + fib(n-3)
+
+
+# Tribonacci dynamically implemented
+def make_trib_table(n):
+    # Create an empty space for each number
+    trib_table = [0] * (n+1)
+    
+    # Starting
+    trib_table[1] = 1
+    trib_table[2] = 1
+
+    # Implement the fibonacci algorithm
+    for i in range(2, n+1):
+        trib_table[i] = trib_table[i-1] + trib_table[i - 2] + trib_table[i - 3]
+    
+    return trib_table[n]
+    
+
+# Largest common subsequence, not substring. So, it doesn't have to be in a row, just in the same order
+def lcs(strA, strB):
+    if len(strA) == 0 or len(strB) == 0:
+        return 0
+    elif strA[-1] == strB[-1]: 
+        # if the last characters match
+        return 1 + lcs(strA[:-1], strB[:-1])
+    else: 
+        # if the last characters don't match
+        return max(lcs(strA[:-1], strB), lcs(strA, strB[:-1]))
+
+
+# Refactor for LCS
+# def memoize(f):
+#     memo = {}
+#     def helper(x):
+#         if x not in memo:
+#             memo[x] = f(x)
+#         return memo[x]
+#     return helper
+
+# fib = memoize(fib)
+
+# Knapsack problem
+def knapsack(items, capacity):
+    """Return the maximum value that can be stored in the knapsack using the
+    items given."""
+    if not items or capacity == 0:
+        return 0
+    
+    # Take the value of the first item, add that to whatever the value of the remaining items would be, but with less capacity
+    value_with = items[0][2] + knapsack(items[1:], capacity - items[0][1])
+    
+    # Assuming the first item doesn't go in the knapsack, what would the value be
+    value_without = knapsack(items[1:], capacity)
+    
+    return max(value_with, value_without)
 
